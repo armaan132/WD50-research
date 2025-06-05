@@ -18,7 +18,7 @@ This project computes the Wettest Days 50% (WD50) metric using PRISM daily preci
 
 ##File Structure
 
-'''
+```
 WD50-research/
 ├── data/
 │ ├── raw_bil/ # Raw .bil, .hdr, .zip files from PRISM
@@ -31,7 +31,7 @@ WD50-research/
 ├── venv/ # Python virtual environment (ignored)
 ├── requirements.txt # Python dependencies
 └── README.md
-'''
+```
 
 ## Requirements
 
