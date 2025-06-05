@@ -1,0 +1,11 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore large data files
+*.csv
+*.zip
+*.bil
+*.nc
+
+# MacOS junk
+.DS_Store
