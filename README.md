@@ -1,11 +1,11 @@
 # WD50 Precipitation Analysis (PRISM Data)
 
-This project computes the Wettest Days 50% (WD50) metric using PRISM daily precipitation data. WD50 is defined as the number of wettest days contributing to 50% of the total annual precipitation—a useful metric for studying precipitation intensification and hydrologic extremes.
+This project computes the Wettest Days 50% (WD50) metric using PRISM daily precipitation data. WD50 is defined as the number of wettest days contributing to 50% of the total annual precipitation—a useful metric.
 
 ## Features
 
 -  **Single-Point WD50 Analysis**  
-  Calculates WD50 from daily `.csv` PRISM data for individual locations (e.g., Irvine, San Luis Obispo).
+  Calculates WD50 from daily `.csv` PRISM data for individual locations (e.g., Irvine, SLO).
 
 -  **Automated Gridded PRISM Downloader**  
   Downloads daily `.bil` raster data from PRISM for specified dates and years, then crops it to the California region.
@@ -19,14 +19,17 @@ This project computes the Wettest Days 50% (WD50) metric using PRISM daily preci
 ## File Structure
 
 WD50-research/
-│
-├── wd50_calculation.py # Script for single-location WD50 using .csv
-├── download_prism_test.py # Script to download and convert 3 days of PRISM .bil data
-├── wd50_from_gridded.py # WD50 calculation on first grid cell of NetCDF file
-├── prism_test/ # Output NetCDF and raw PRISM files (ignored in Git)
-├── home.csv, SLO.csv # Sample location data (ignored in Git)
-└── venv/ # Local Python environment (ignored in Git)
-
+├── data/
+│ ├── raw_bil/ # Raw .bil, .hdr, .zip files from PRISM
+│ └── processed/ # NetCDF outputs (.nc)
+├── scripts/
+│ ├── download_prism_test.py # PRISM .bil downloader and NetCDF converter
+│ └── wd50_from_gridded.py # Grid-based WD50 test (first cell)
+├── wd50_calculation.py # Station-based WD50 using CSV files
+├── home.csv, SLO.csv # Sample CSVs for single-location testing (ignored in Git)
+├── venv/ # Python virtual environment (ignored)
+├── requirements.txt # Python dependencies
+└── README.md
 
 ## Requirements
 
