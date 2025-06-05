@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the small test NetCDF file
-ds = xr.open_dataset("prism_test/ppt_daily_test.nc")
+ds = xr.open_dataset("data/processed/ppt_daily_test.nc")
 ppt = ds['ppt']  # shape: (time, lat, lon)
 
 # Get the first lat/lon point
