@@ -1,11 +1,24 @@
 # Ignore Python virtual environment
 venv/
 
-# Ignore large data files
-*.csv
+# Ignore large or raw data files
+data/raw_bil/
 *.zip
 *.bil
+*.bil.*
+*.hdr
 *.nc
 
-# MacOS junk
+# Optional: ignore intermediate CSVs if not needed in repo
+*.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# VS Code workspace junk
+.vscode/
+*.code-workspace
+
+# MacOS system files
 .DS_Store
