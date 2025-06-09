@@ -2,12 +2,10 @@ import xarray as xr
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Load the small test NetCDF file
 ds = xr.open_dataset("data/processed/ppt_daily_test.nc")
-ppt = ds['ppt']  # shape: (time, lat, lon)
+ppt = ds['ppt']  # (time, lat, lon) preciptation format
 
-# Get the first lat/lon point
-ppt_single = ppt[:, 0, 0].values  # extract 1D time series at (0, 0)
+ppt_single = ppt[:, 0, 0].values
 
 def calculate_wd50(precip_series):
     sorted_daily = np.sort(precip_series[~np.isnan(precip_series)])[::-1]
