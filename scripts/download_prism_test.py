@@ -71,6 +71,6 @@ def download_prism_test(variable="ppt", output_dir="prism_test"):
     print(f"Saved NetCDF to {out_path}")
     ds.to_netcdf(out_path, encoding={variable: {"zlib": True, "complevel": 4}})
 
-# Run the test
+# func call
 download_prism_test()
 
