@@ -20,17 +20,30 @@ This project computes the Wettest Days 50% (WD50) metric using PRISM daily preci
 
 ```
 WD50-research/
-├── data/
-│ ├── raw_bil/ # Raw .bil, .hdr, .zip files from PRISM
-│ └── processed/ # NetCDF outputs (.nc)
-├── scripts/
-│ ├── download_prism_test.py # PRISM .bil downloader and NetCDF converter
-│ └── wd50_from_gridded.py # Grid-based WD50 test (first cell)
-├── wd50_calculation.py # Station-based WD50 using CSV files
-├── home.csv, SLO.csv # Sample CSVs for single-location testing (ignored in Git)
-├── venv/ # Python virtual environment (ignored)
-├── requirements.txt # Python dependencies
-└── README.md
+├── archive/                          # Archived scripts (legacy or experimental)
+│   ├── download_prism_test.py
+│   ├── single_grid_point.py
+│   ├── temp_test.py
+│   ├── wd50_dynamic.py
+│   ├── wd50_dynamic_water_year.py
+│   └── wd50_dynamic_WY_and_NC.py
+│
+├── nc_output/                       # Final NetCDF outputs for each water year
+│   ├── metrics_wy1990.nc
+│   ├── metrics_wy1991.nc
+│   ├── ...
+│   ├── metrics_wy2016.nc
+│   └── metrics_wy2017.nc
+│
+├── scripts/                         # Actively maintained and optimized script(s)
+│   └── wd50_dynamic_5.py
+│
+├── wd50_calculation.py              # Single-point WD50 calculator from CSV
+├── test.csv                         # Sample CSV (should be ignored in Git)
+├── requirements.txt                 # Required Python packages
+├── .gitignore                       # Files and folders to exclude from Git
+└── README.md                        # Project description, setup, and usage
+
 ```
 
 ## Requirements
