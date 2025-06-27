@@ -1,3 +1,7 @@
+#new dynamic script implemented to prevent heavy file usage #2
+
+
+
 import os
 import requests
 import zipfile
@@ -7,7 +11,7 @@ import time
 from datetime import datetime, timedelta
 import shutil
 
-# Settings
+
 start_date = datetime(1990, 1, 1)
 end_date = datetime(1990, 12, 31)
 variable = "ppt"
@@ -18,11 +22,17 @@ target_lat = 33.7448
 target_lon = -117.7467
 
 def calculate_wd50(precip_series):
-    sorted_daily = np.sort(precip_series[~np.isnan(precip_series)])[::-1]
+    # Filter: only include days > 1 mm
+    wet_days = precip_series[precip_series > 1.0]
+    if len(wet_days) == 0:
+        return np.nan  # Not enough valid days
+
+    sorted_daily = np.sort(wet_days)[::-1]
     cumulative = np.cumsum(sorted_daily)
     half_total = cumulative[-1] / 2
     wd50 = np.sum(cumulative < half_total) + 1
     return wd50
+
 
 daily_precip = []
 
@@ -37,12 +47,12 @@ while current <= end_date:
     os.makedirs(output_dir, exist_ok=True)
 
     try:
-        print(f"\n📅 Processing {date_str}...")
+        print(f"\n Processing {date_str}...")
         t0 = time.time()
 
         r = requests.get(url)
         if r.status_code != 200:
-            print(f"❌ {date_str} not found.")
+            print(f" {date_str} not found.")
             current += timedelta(days=1)
             continue
 
@@ -74,13 +84,13 @@ while current <= end_date:
             value = data[lat_idx, lon_idx]
             daily_precip.append(value)
 
-            print(f"✅ lat={lats[lat_idx]:.4f}, lon={lons[lon_idx]:.4f}, precip={value:.2f} mm")
+            print(f" lat={lats[lat_idx]:.4f}, lon={lons[lon_idx]:.4f}, precip={value:.2f} mm")
 
         t1 = time.time()
         print(f"⏱️ Time taken: {t1 - t0:.2f} sec")
 
     except Exception as e:
-        print(f"⚠️ Error on {date_str}: {e}")
+        print(f" Error on {date_str}: {e}")
 
     finally:
         if os.path.exists(output_dir):
@@ -88,12 +98,11 @@ while current <= end_date:
 
     current += timedelta(days=1)
 
-# Final check
-print(f"\n📊 Total valid days collected: {len(daily_precip)} (expected: {(end_date - start_date).days + 1})")
+print(f"\nTotal valid days collected: {len(daily_precip)} (expected: {(end_date - start_date).days + 1})")
 
 daily_precip = np.array(daily_precip)
 if len(daily_precip) == 0 or np.all(np.isnan(daily_precip)):
-    print("🚫 No valid precipitation data collected. WD50 cannot be computed.")
+    print("No valid precipitation data collected. WD50 cannot be computed.")
 else:
     wd50 = calculate_wd50(daily_precip)
-    print(f"\n🌧️ WD50 from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}: {wd50}")
+    print(f"\nWD50 from {start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}: {wd50}")

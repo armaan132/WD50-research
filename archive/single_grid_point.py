@@ -1,3 +1,6 @@
+#just to check if the other scripts are working properly - testing single grid point #1
+
+
 import pandas as pd
 import numpy as np
 
