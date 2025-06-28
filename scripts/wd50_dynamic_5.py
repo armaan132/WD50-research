@@ -13,8 +13,8 @@ import shutil
 import xarray as xr
 
 # === CONFIGURATION ===
-start_water_year = 1990
-end_water_year = 2001  # inclusive
+start_water_year = 2002
+end_water_year = 2017  # inclusive
 variable = "ppt"
 output_dir = "temp_prism"
 nc_output_dir = "nc_output"
