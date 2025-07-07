@@ -13,8 +13,8 @@ import shutil
 import xarray as xr
 
 # === CONFIGURATION ===
-start_water_year = 2002
-end_water_year = 2017  # inclusive
+start_water_year = 1990
+end_water_year = 2025  # inclusive
 variable = "ppt"
 output_dir = "temp_prism"
 nc_output_dir = "nc_output"
@@ -75,6 +75,7 @@ for wy in range(start_water_year, end_water_year + 1):
                 data[data == -9999] = np.nan
 
                 if lat_grid is None or lon_grid is None:
+                    ## PRISM’s daily dataset cover CONUS (have all data for contigous United States)
                     bounds = src.bounds
                     lat_res = (bounds.top - bounds.bottom) / src.height
                     lon_res = (bounds.right - bounds.left) / src.width
@@ -95,28 +96,21 @@ for wy in range(start_water_year, end_water_year + 1):
         current += timedelta(days=1)
 
     if len(daily_stack) > 0:
-        print("Calculating WD50 and other metrics...")
+        print("Calculating metrics")
         full_data = np.stack(daily_stack, axis=0)
 
-        # Apply metrics
-        wd50_map = np.apply_along_axis(calculate_wd50, 0, full_data)
+        wd50_map = np.apply_along_axis(calculate_wd50, 0, full_data) ## days that add up to years 50 % precip
 
-        # PRCPTOT: Total precip on wet days (≥1 mm)
-        prcptot_map = np.apply_along_axis(lambda s: np.nansum(s[s >= 1.0]), 0, full_data)
+        prcptot_map = np.apply_along_axis(lambda s: np.nansum(s[s >= 1.0]), 0, full_data) ##total precip across all year
 
-        # 95th percentile threshold (for each grid cell)
         r95_threshold = np.nanpercentile(full_data, 95, axis=0)
 
-        # Boolean mask for days > 95th percentile
         r95_mask = full_data > r95_threshold
 
-        # R95p: number of days > 95th percentile
-        r95p_map = np.sum(r95_mask & ~np.isnan(full_data), axis=0)
+        r95p_map = np.sum(r95_mask & ~np.isnan(full_data), axis=0) ##num days where precipitation was in the top 5%
 
-        # R95pTOT: total precipitation on those days
-        r95ptot_map = np.sum(np.where(r95_mask, full_data, 0), axis=0)
+        r95ptot_map = np.sum(np.where(r95_mask, full_data, 0), axis=0) ##total amount of precip during top 5% of rainfall during year
 
-        # Create dataset
         ds = xr.Dataset(
             {
                 "wd50": (("lat", "lon"), wd50_map),
