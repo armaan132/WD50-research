@@ -7,7 +7,6 @@ data/raw_bil/
 *.bil
 *.bil.*
 *.hdr
-*.nc
 
 # Optional: ignore intermediate CSVs if not needed in repo
 *.csv
