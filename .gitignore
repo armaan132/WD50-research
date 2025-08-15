@@ -24,3 +24,7 @@ __pycache__/
 
 #test file created 
 temp_prism/
+
+
+# Large NetCDF output file - too big for GitHub (>100 MB)
+wd50_mk_trend.nc
