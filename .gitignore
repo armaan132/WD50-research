@@ -28,3 +28,9 @@ temp_prism/
 
 # Large NetCDF output file - too big for GitHub (>100 MB)
 wd50_mk_trend.nc
+
+# Ignore all CSV files by default
+*.csv
+
+# But DO track CSV files in stations/
+!stations/*.csv
