@@ -9,7 +9,7 @@ target_lat = 37.0580
 target_lon = -121.1137
 
 
-ds = xr.open_dataset("nc_output/metrics_wy1992.nc")
+ds = xr.open_dataset("nc_output2/metrics_wy1993.nc")
 
 
 lat_idx = np.abs(ds.lat - target_lat).argmin().item()
